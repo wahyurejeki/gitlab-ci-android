@@ -21,11 +21,18 @@ RUN apt-get -qq update \
       lib32ncurses6 \
       lib32z1 \
       g++ \
-      cmake \
+      wget \
+      tar \
       make \
       unzip \
       locales \
- && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+ && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*  && wget https://github.com/Kitware/CMake/releases/download/v3.18.1/cmake-3.18.1-Linux-x86_64.sh \
+      -q -O /tmp/cmake-install.sh \
+      && chmod u+x /tmp/cmake-install.sh \
+      && mkdir /opt/cmake-3.18.1 \
+      && /tmp/cmake-install.sh --skip-license --prefix=/opt/cmake-3.18.1 \
+      && rm /tmp/cmake-install.sh \
+      && ln -s /opt/cmake-3.18.1/bin/* /usr/local/bin
 RUN locale-gen en_US.UTF-8
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 
